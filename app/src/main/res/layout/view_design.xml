@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center"
         android:fontFamily="monospace"
-        android:textSize="42sp"
-        tools:text="#12" />
+
+        />
 
     <TextView
         android:id="@+id/movie_name"
@@ -25,14 +25,11 @@
         android:layout_gravity="center_vertical|end"
         android:fontFamily="monospace"
         android:textColor="#000"
-        tools:text="Inside Out" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_launcher_round" />
-
+       />
+<android.support.v7.widget.AppCompatImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_launcher_background"
     />
 
 

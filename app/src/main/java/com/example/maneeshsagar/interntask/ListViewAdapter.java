@@ -1,9 +1,13 @@
 package com.example.maneeshsagar.interntask;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.List;
 
 /**
  * Created by maneeshsagar on 21-04-2018.
@@ -11,22 +15,46 @@ import android.widget.TextView;
 
 public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ListViewHolder>{
 
+ List<MovieListItem> list;
+ Context context;
 
+    public ListViewAdapter(List<MovieListItem> list, Context context) {
+        this.list = list;
+        this.context = context;
+    }
 
-
+    public int count=0;
     @Override
     public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+
+
+        Context context=parent.getContext();
+        LayoutInflater layoutInflater=LayoutInflater.from(context);
+
+        View MovieVeiw=layoutInflater.inflate(R.layout.view_design,parent,false);
+
+        ListViewHolder listViewHolder=new ListViewHolder(MovieVeiw);
+
+      //  listViewHolder.movieName.setText("Inside Out");
+      //  listViewHolder.sr_no.setText("# "+count++);
+
+        return listViewHolder;
     }
 
     @Override
     public void onBindViewHolder(ListViewHolder holder, int position) {
+       // holder.sr_no.setText(String.valueOf(position));
 
+        MovieListItem movieListItem=list.get(position);
+        holder.movieName.setText(movieListItem.getMovie_name());
+        holder.sr_no.setText(String.valueOf(movieListItem.getRelase_date()));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+
+
+        return list.size();
     }
 
 
