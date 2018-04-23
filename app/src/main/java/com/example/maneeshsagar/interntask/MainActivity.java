@@ -1,11 +1,13 @@
 package com.example.maneeshsagar.interntask;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,7 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements ListViewAdapter.ListItemClickListener{
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -45,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
     }
     final String URL_DATA="https://api.themoviedb.org/3/discover/movie?api_key=31892de385224ec9bc9710ce750ef7aa&sort_by=popularity.desc";
     private void loadRecyclerviewData() {
-        ProgressDialog progressDialog=new ProgressDialog(this);
+        final ProgressDialog progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Loading Data");
-    //    progressDialog.show();
+        progressDialog.show();
 
 
 
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                       progressDialog.dismiss();
                         try {
                             JSONObject jsonObject=new JSONObject(response);
                             JSONArray results=jsonObject.getJSONArray("results");
@@ -67,11 +69,12 @@ public class MainActivity extends AppCompatActivity {
                                 JSONObject o=results.getJSONObject(i);
                                 MovieListItem item=new MovieListItem(
                                         o.getString("title"),o.getString("release_date"),
-                                        o.getString("poster_path")
+                                        o.getString("poster_path"),o.getString("backdrop_path"),
+                                        o.getString("overview"),o.getString("popularity")
                                 );
                                 listItems.add(item);
                             }
-                          adapter= new ListViewAdapter(listItems,getApplicationContext());
+                          adapter= new ListViewAdapter(listItems,getApplicationContext(),MainActivity.this);
                             recyclerView.setAdapter(adapter);
 
                         } catch (JSONException e) {
@@ -93,4 +96,21 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
     }
+
+
+
+
+
+
+    @Override
+    public void onListItemCLick(int position) {
+        Intent intent=new Intent(this,Detail.class);
+       // Bundle b=new Bundle();
+
+        intent.putExtra("Item",listItems.get(position));
+        startActivity(intent);
+
+    }
+
+
 }
